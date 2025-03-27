@@ -14,7 +14,6 @@ contract StakingFacet is IStakingFacet {
     function stake(address token, uint256 amount) external {
         LibStaking.StakingStorage storage ds = LibStaking.diamondStorage();
         
-        // Validate stake amount
         require(amount > 0, "Stake amount must be positive");
         
         // Transfer tokens from user to contract
@@ -28,7 +27,7 @@ contract StakingFacet is IStakingFacet {
         _updateReward(msg.sender);
     }
 
-    // Unstake tokens
+   
     function unstake(address token, uint256 amount) external {
         LibStaking.StakingStorage storage ds = LibStaking.diamondStorage();
         
@@ -46,7 +45,7 @@ contract StakingFacet is IStakingFacet {
         _updateReward(msg.sender);
     }
 
-    // Claim accumulated rewards
+
     function claimRewards() external {
         LibStaking.StakingStorage storage ds = LibStaking.diamondStorage();
         
@@ -69,7 +68,6 @@ contract StakingFacet is IStakingFacet {
         return ds.stakedBalances[user][token];
     }
 
-    // Internal reward calculation
     function _calculateReward(address user) internal view returns (uint256) {
         LibStaking.StakingStorage storage ds = LibStaking.diamondStorage();
         
@@ -83,7 +81,7 @@ contract StakingFacet is IStakingFacet {
         return (stakedAmount * currentAPR * timeStaked) / (365 days * 100);
     }
 
-   // Update reward tracking
+   
 function _updateReward(address user) internal {
     LibStaking.StakingStorage storage ds = LibStaking.diamondStorage();
     ds.lastUpdateTime = block.timestamp;
